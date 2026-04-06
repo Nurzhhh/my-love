@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Айша ✨</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #f5c842;
+      --coral: #ff6b6b;
+      --rose: #ff85a1;
+      --teal: #00c9a7;
+      --sky: #48cae4;
+      --dark: #0d0d1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── CANVAS PARTICLES ── */
+    #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero { background: transparent; }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(5rem, 18vw, 14rem);
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), var(--rose), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeUp 1s 0.6s forwards, shimmer 4s 1.6s infinite;
+      background-size: 200% auto;
+    }
+
+    .hero-tagline {
+      margin-top: 16px;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .scroll-hint {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 1.5s forwards;
+      cursor: pointer;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+    }
+    .scroll-hint .arrow {
+      width: 24px; height: 24px;
+      border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      transform: rotate(45deg);
+      animation: bounce 1.5s infinite;
+    }
+
+    /* ══════════════════════════════
+       BALI CHAPTER
+    ══════════════════════════════ */
+    #bali {
+      background: radial-gradient(ellipse at 50% 0%, #1a3a2a 0%, var(--dark) 70%);
+    }
+
+    .chapter-label {
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    .chapter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .chapter-text {
+      max-width: 580px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.8;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .highlight { color: var(--teal); font-weight: 500; }
+    .highlight-gold { color: var(--gold); font-weight: 500; }
+    .highlight-rose { color: var(--rose); font-weight: 500; }
+
+    /* floating emoji */
+    .float-emoji {
+      font-size: 3rem;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* ══════════════════════════════
+       WEDDING CHAPTER
+    ══════════════════════════════ */
+    #wedding {
+      background: radial-gradient(ellipse at 50% 100%, #2a1a30 0%, var(--dark) 70%);
+    }
+
+    /* ══════════════════════════════
+       SONG CHAPTER
+    ══════════════════════════════ */
+    #song {
+      background: radial-gradient(ellipse at 50% 50%, #1a1a2e 0%, var(--dark) 80%);
+    }
+
+    .song-card {
+      position: relative;
+      margin: 32px auto;
+      max-width: 460px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,133,161,0.3);
+      border-radius: 24px;
+      padding: 36px 32px;
+      backdrop-filter: blur(12px);
+    }
+
+    .song-wave {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 5px;
+      height: 48px;
+      margin: 20px 0;
+    }
+    .song-wave span {
+      display: block;
+      width: 5px;
+      border-radius: 4px;
+      background: linear-gradient(to top, var(--rose), var(--gold));
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    .song-wave span:nth-child(1) { height: 20px; animation-delay: 0s; }
+    .song-wave span:nth-child(2) { height: 38px; animation-delay: 0.15s; }
+    .song-wave span:nth-child(3) { height: 28px; animation-delay: 0.3s; }
+    .song-wave span:nth-child(4) { height: 44px; animation-delay: 0.45s; }
+    .song-wave span:nth-child(5) { height: 32px; animation-delay: 0.6s; }
+    .song-wave span:nth-child(6) { height: 22px; animation-delay: 0.75s; }
+    .song-wave span:nth-child(7) { height: 40px; animation-delay: 0.9s; }
+    .song-wave span:nth-child(8) { height: 16px; animation-delay: 1.05s; }
+
+    .song-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--rose);
+      margin-bottom: 8px;
+    }
+    .song-note { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+
+    /* ══════════════════════════════
+       CONFESSION
+    ══════════════════════════════ */
+    #confession {
+      background: radial-gradient(ellipse at 50% 50%, #200a0a 0%, var(--dark) 70%);
+    }
+
+    .confession-btn {
+      margin: 40px auto 0;
+      display: inline-block;
+      padding: 18px 48px;
+      font-size: 1.1rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      background: linear-gradient(135deg, var(--coral), var(--rose));
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(255,107,107,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .confession-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 60px rgba(255,107,107,0.6);
+    }
+
+    .confession-text {
+      display: none;
+      max-width: 640px;
+      margin: 48px auto 0;
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      line-height: 2;
+      color: rgba(255,255,255,0.85);
+      animation: fadeUp 1s forwards;
+    }
+
+    .confession-sign {
+      margin-top: 32px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.5rem;
+      color: var(--gold);
+    }
+
+    /* ── HEARTS BURST ── */
+    .heart-burst {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.5rem;
+      z-index: 999;
+      animation: heartFly 1.5s ease-out forwards;
+    }
+
+    /* ══════════════════════════════
+       FINAL
+    ══════════════════════════════ */
+    #final {
+      background: transparent;
+      min-height: 60vh;
+    }
+    .final-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      background: linear-gradient(135deg, var(--gold), var(--rose));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ══════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      0%,100% { background-position: 0% center; }
+      50%      { background-position: 200% center; }
+    }
+    @keyframes bounce {
+      0%,100% { transform: rotate(45deg) translateY(0); }
+      50%      { transform: rotate(45deg) translateY(8px); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-14px); }
+    }
+    @keyframes wave {
+      0%,100% { transform: scaleY(1); }
+      50%      { transform: scaleY(0.3); }
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.7; }
+    }
+    @keyframes heartFly {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-180px) scale(1.6); }
+    }
+
+    /* ── REVEAL ON SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <p class="hero-subtitle">Для тебя, единственная</p>
+  <h1 class="hero-name">Айша</h1>
+  <p class="hero-tagline">История, которая началась на краю света…</p>
+  <div class="scroll-hint" onclick="document.getElementById('bali').scrollIntoView({behavior:'smooth'})">
+    прокрути вниз
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ BALI ═══ -->
+<section id="bali">
+  <span class="float-emoji reveal">🌴</span>
+  <p class="chapter-label reveal">Глава I</p>
+  <h2 class="chapter-title reveal">
+    Бали.<br/>
+    <span style="color:var(--teal)">Остров, где всё началось</span>
+  </h2>
+  <p class="chapter-text reveal">
+    Где-то среди <span class="highlight">тропических закатов</span> и шума океана
+    я увидел тебя первый раз.<br/><br/>
+    Что-то во мне замерло.
+    Я хотел подойти — но слова куда-то делись.
+    Я молчал и смотрел, как ты уходишь…<br/><br/>
+    <span class="highlight-gold">Бали не отпускал меня. И ты — тоже.</span>
+  </p>
+</section>
+
+<!-- ═══ WEDDING ═══ -->
+<section id="wedding">
+  <span class="float-emoji reveal">💍</span>
+  <p class="chapter-label reveal">Глава II</p>
+  <h2 class="chapter-title reveal">
+    Свадьба.<br/>
+    <span style="color:var(--rose)">Судьба не даёт двух шансов…</span>
+  </h2>
+  <p class="chapter-text reveal">
+    …но иногда всё же даёт.<br/><br/>
+    Среди сотни людей — <span class="highlight-rose">снова ты</span>.
+    Это не совпадение. Это был знак,
+    который я на этот раз не проигнорировал.<br/><br/>
+    На чужом празднике любви
+    <span class="highlight-gold">что-то родилось и во мне.</span>
+  </p>
+</section>
+
+<!-- ═══ SONG ═══ -->
+<section id="song">
+  <p class="chapter-label reveal">Глава III</p>
+  <h2 class="chapter-title reveal">
+    Наша <span style="color:var(--rose)">песня</span>
+  </h2>
+  <div class="song-card reveal">
+    <p class="song-title">«Не оставляй меня, любимый»</p>
+    <div class="song-wave">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <p class="song-note">
+      Когда мы пели её вместе —<br/>
+      я думал только об одном: <em>не хочу, чтобы это заканчивалось.</em>
+    </p>
+  </div>
+  <p class="chapter-text reveal" style="margin-top:16px;">
+    Теперь каждый раз, когда я слышу эти слова,<br/>
+    <span class="highlight-rose">я слышу твой голос.</span>
+  </p>
+</section>
+
+<!-- ═══ CONFESSION ═══ -->
+<section id="confession">
+  <p class="chapter-label reveal">Глава IV</p>
+  <h2 class="chapter-title reveal">
+    Хочу сказать тебе<br/>
+    <span style="color:var(--coral)">кое-что важное</span>
+  </h2>
+  <button class="confession-btn" id="confBtn" onclick="showConfession()">
+    Нажми, если не боишься ✨
+  </button>
+  <div class="confession-text" id="confText">
+    <p>
+      Айша,<br/><br/>
+      я не знаю, как правильно это говорят.
+      Но я знаю, что с того самого дня на <span class="highlight">Бали</span>
+      ты не выходила у меня из головы.<br/><br/>
+      Судьба свела нас снова — и я понял:
+      второй раз молчать я не имею права.<br/><br/>
+      Ты особенная.
+      Не потому что красивая — хотя это правда.
+      А потому что рядом с тобой мне хочется быть
+      <span class="highlight-gold">лучшей версией себя</span>.<br/><br/>
+      Я не прошу ничего. Просто хочу, чтобы ты знала —
+      <span class="highlight-rose">ты мне очень нравишься.</span><br/>
+      Серьёзно. По-настоящему.
+    </p>
+    <p class="confession-sign">С теплом — твой Нуржан 🌺</p>
+  </div>
+</section>
+
+<!-- ═══ FINAL ═══ -->
+<section id="final">
+  <p class="final-text reveal">Айша ♥</p>
+</section>
+
+<script>
+/* ────────────────────────────────────────────
+   PARTICLES
+──────────────────────────────────────────── */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const COLORS = ['#f5c842','#ff85a1','#ff6b6b','#00c9a7','#48cae4','#ffffff'];
+
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init) {
+    this.x     = Math.random() * canvas.width;
+    this.y     = init ? Math.random() * canvas.height : canvas.height + 10;
+    this.size  = Math.random() * 3 + 1;
+    this.speedY= -(Math.random() * 0.6 + 0.2);
+    this.speedX= (Math.random() - 0.5) * 0.3;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.alpha = Math.random() * 0.7 + 0.3;
+    this.twinkle = Math.random() * Math.PI * 2;
+  }
+  update() {
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.twinkle += 0.04;
+    this.alpha = 0.3 + 0.4 * Math.abs(Math.sin(this.twinkle));
+    if (this.y < -10) this.reset(false);
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle   = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur  = 8;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < 160; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* ────────────────────────────────────────────
+   SCROLL REVEAL
+──────────────────────────────────────────── */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ────────────────────────────────────────────
+   CONFESSION
+──────────────────────────────────────────── */
+function showConfession() {
+  const btn  = document.getElementById('confBtn');
+  const text = document.getElementById('confText');
+  btn.style.display  = 'none';
+  text.style.display = 'block';
+  burstHearts();
+}
+
+function burstHearts() {
+  const emojis = ['❤️','💕','💖','✨','🌺','💫'];
+  for (let i = 0; i < 24; i++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.className = 'heart-burst';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.top  = (40 + Math.random() * 40) + 'vh';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1600);
+    }, i * 80);
+  }
+}
+
+/* ────────────────────────────────────────────
+   CURSOR SPARKLE
+──────────────────────────────────────────── */
+document.addEventListener('mousemove', (e) => {
+  if (Math.random() > 0.85) {
+    const spark = document.createElement('div');
+    spark.style.cssText = `
+      position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+      width:6px; height:6px; border-radius:50%;
+      background:${COLORS[Math.floor(Math.random()*COLORS.length)]};
+      pointer-events:none; z-index:9999;
+      animation: heartFly 0.8s ease-out forwards;
+    `;
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 800);
+  }
+});
+</script>
+</body>
+</html>

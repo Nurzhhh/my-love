@@ -1,0 +1,20 @@
+# JetBrains IDE
+.idea/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node (если появится)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel/
+
+# Environment
+.env
+.env.local
+.env*.local
